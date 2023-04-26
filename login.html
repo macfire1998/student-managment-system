@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Registration Page</title>
+	<link rel="stylesheet" href="style.css">
+	
+</head>
+<body>
+	<form id="register-form">
+		<h2>Registration Form</h2>
+		<div class="container">
+			<label for="username"><b>Username</b></label>
+			<input type="text" placeholder="Enter Username" name="username" id="username" required>
+
+			<label for="email"><b>Email</b></label>
+			<input type="text" placeholder="Enter Email" name="email" id="email" required>
+
+			<label for="password"><b>Password</b></label>
+			<input type="password" placeholder="Enter Password" name="password" id="password" required>
+
+			<label for="confirm-password"><b>Confirm Password</b></label>
+			<input type="password" placeholder="Confirm Password" name="confirm-password" id="confirm-password" required>
+
+      <label for="admin"><b>Admin</b></label>
+			<input type="checkbox" name="admin" id="admin">
+
+			<button type="submit", onclick="registering(event)">Register</button>
+		</div>
+	</form>
+
+	<div id="error" class="error"></div>
+	<div id="success" class="success"></div>
+
+	<form id="login-form">
+		<h2>Login Form</h2>
+		<div class="container">
+			<label for="login-username"><b>Email</b></label>
+			<input type="text" placeholder="Enter Username" name="login-username" id="login-username" required>
+
+			<label for="login-password"><b>Password</b></label>
+			<input type="password" placeholder="Enter Password" name="login-password" id="login-password" required>
+
+      <label for="admin2"><b>Admin</b></label>
+			<input type="checkbox" name="admin2" id="admin2">
+
+			<button type="submit", onclick="login(event)">Login</button>
+		</div>
+	</form>
+</body>
+<script>
+function login(event) {
+  event.preventDefault(); // Prevent form submission
+  
+  const username = document.getElementById("login-username").value;
+  const password = document.getElementById("login-password").value;
+  const admin2 = document.getElementById("admin2").checked;
+  
+  const data = {
+    "kind": "SignIn",
+    "data": {
+      "Email": username,
+      "Password": password,
+      "Admin": admin2
+    }
+  };
+  fetch("https://iw3y8nurxg.execute-api.ap-south-1.amazonaws.com/Dev/signin", {
+    method: "POST",
+    body: JSON.stringify(data)
+  }
+  )
+  .then(response => {
+    if (response.status === 200) {
+      if (admin2){
+        window.location.href = "student.html"; // Redirect to student.html if successful
+      }
+      else {
+        window.location.href = "student1.html"; // Redirect to student1.html if successful
+      }
+    }
+    else {
+      console.error('response')
+    }
+  })
+  .catch(error => console.error(error));
+}
+
+function registering(event) {
+  event.preventDefault(); // Prevent form submission
+  
+  const username = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const admin = document.getElementById("admin").checked;
+  const data = {
+    "kind": "SignUp",
+    "data": {
+      "Email": email,
+      "Password": password,
+      "FirstName": username,
+      "LastName": username,
+      "ContactNumber": username,
+      "Admin": admin
+    }
+  };
+
+  fetch("https://iw3y8nurxg.execute-api.ap-south-1.amazonaws.com/Dev/signin", {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (response.status === 200) {
+      console.log("response")
+    }
+    else {
+      console.error("response")
+    }
+  })
+  .catch(error => console.error(error));
+}
+</script>
+
+
